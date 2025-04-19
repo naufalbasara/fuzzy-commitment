@@ -65,16 +65,18 @@ if __name__ == "__main__":
     model = load_model('pre-trained/vggface2.h5')
 
     # Define and load face detection module here... (Default: Haarcascade from OpenCV)
-    def detect_faces():
+    def detect_faces() -> tuple[int, int, int, int]:
         pass
 
     # Get each of the user embedding
     enrolled_embedding = get_vector(image_path='data/person1/Selfie_2.jpg',
                                     classifier=model,
-                                    face_detection=face_detection).flatten()
+                                    face_detection=face_detection,
+                                    xml_path='haarcascade_frontalface_default.xml').flatten()
     probe_embedding = get_vector('data/person1/Selfie_5.jpg',
                                  classifier=model,
-                                 face_detection=face_detection).flatten()
+                                 face_detection=face_detection,
+                                 xml_path='haarcascade_frontalface_default.xml').flatten()
     
     # Register user's embedding
     fcs = FCS(biometric_template=enrolled_embedding, maximum_fix=96)
